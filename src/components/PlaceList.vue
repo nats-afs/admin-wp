@@ -1,14 +1,14 @@
 <template>
   <v-card>
     <v-card-title>
-      Noticias
+      Eventos
       <v-spacer></v-spacer>
       <v-text-field append-icon="search" label="Buscar" single-line hide-details v-model="search"></v-text-field>
     </v-card-title>
     <v-dialog v-model="dialog" max-width="1000px">
-      <newsform :edit="edit" :item="item">
+      <placeform :edit="edit" :item="item">
         <v-btn @click.native="close">cancelar</v-btn>
-      </newsform>
+      </placeform>
     </v-dialog>
     <v-dialog v-model="modal" persistent max-width="290">
       <v-card>
@@ -24,11 +24,10 @@
     <v-data-table :headers="headers" :items="items" :search="search" :loading="loading" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.title }}</td>
-        <td><v-icon v-if="props.item.featured" color="teal">star</v-icon></td>
-        <td class="text-xs-right">{{ props.item.category }}</td>
-        <td class="text-xs-right">{{ props.item.description }}</td>
-        <td class="text-xs-right">{{ props.item.date }}</td>
-        <td class="justify-center layout px-0">
+        <td>{{ props.item.address }}</td>
+        <td>{{ miniDescription(props.item.description) }}</td>
+        <td>{{ props.item.gallery.length }}</td>
+        <td>
           <v-btn icon class="mx-0" @click="editItem(props.item)">
             <v-icon color="teal">edit</v-icon>
           </v-btn>
@@ -44,14 +43,14 @@
   </v-card>
 </template>
 <script>
-import { newsRef } from "../config/firebaseConfig";
-import newsform from "./NewsForm";
+import { placeRef } from "../config/firebaseConfig";
+import placeform from "./PlaceForm";
 export default {
   components: {
-    newsform
+    placeform
   },
   data: () => ({
-    loading:false,
+    loading: false,
     contain: true,
     tmp: "",
     search: "",
@@ -60,37 +59,42 @@ export default {
     modal: false,
     headers: [
       { text: "Titulo", align: "left", value: "title" },
-      { text: "Destacado", align: "left", value: "featured" },
-      { text: "Categoria", value: "category" },
+      { text: "Direccion", value: "address" },
       { text: "Descripcion", value: "description" },
-      { text: "Fecha", value: "date" },
+      { text: "Imagenes", value: "gallery" },
       { text: "Acciones", value: "name", sortable: false }
     ],
     items: [],
     edit: false,
-    item: {},
+    item: {
+      title: null,
+      address: null,
+      description: null,
+      imageName: null,
+      imageValue: null,
+      gallery: []
+    },
     delete: null
   }),
   created() {
     this.loading = true;
-    newsRef.on("value", snapshot => {
-      this.fetchNews(snapshot.key, snapshot.val());
+    placeRef.on("value", snapshot => {
+      this.fetchPlaces(snapshot.key, snapshot.val());
       this.loading = false;
     });
   },
   methods: {
-    fetchNews(key, news) {
+    fetchPlaces(key, places) {
       this.items = [];
-      for (let key in news) {
+      for (let key in places) {
         this.items.push({
           uid: key,
-          title: news[key].title,
-          featured : news[key].featured,
-          category: news[key].category,
-          description: news[key].description,
-          date: news[key].date,
-          image: news[key].image
-          // imagen: 7,
+          title: places[key].title,
+          address: places[key].address,
+          description: places[key].description,
+          imageName: places[key].imageName,
+          imageValue: places[key].imageValue,
+          gallery: places[key].gallery? places[key].gallery : []
         });
       }
     },
@@ -108,22 +112,16 @@ export default {
     },
     deleteItem() {
       this.modal = false;
-      newsRef
+      placeRef
         .child(this.delete)
         .remove()
         .then(console.log("Registro eliminado"));
       this.delete = null;
     },
-    previewImage(event) {
-      var input = event.target;
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = e => {
-          this.item.image = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
+    miniDescription(str){
+      return str.length > 100? str.substr(0,100) + ' ...' : str
     }
   }
 };
 </script>
+

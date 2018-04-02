@@ -16,7 +16,7 @@
                   <v-text-field name="title" label="Titulo" v-model="item.title" :error-messages="titleErrors" :counter="40" @input="$v.item.title.$touch()" @blur="$v.item.title.$touch()"></v-text-field>
                   <v-select label="Categoria" v-model="item.category" :items="items" :error-messages="categoryErrors" @change="$v.item.category.$touch()" @blur="$v.item.category.$touch()"></v-select>
                   <v-text-field name="description" label="Descripcion" v-model="item.description" :error-messages="descriptionErrors" @input="$v.item.description.$touch()" @blur="$v.item.description.$touch()" multi-line></v-text-field>
-                  <!-- <v-checkbox label="Do you agree?" v-model="checkbox" :error-messages="checkboxErrors" @change="$v.checkbox.$touch()" @blur="$v.checkbox.$touch()" required></v-checkbox> -->
+                  <v-checkbox label="Destacar?" v-model="item.featured" ></v-checkbox>
                 </v-flex>
                 <v-flex xs6>
                   <v-card-text>
@@ -27,7 +27,7 @@
                 </v-flex>
               </v-layout>
               <v-btn @click="submit">guardar</v-btn>
-              <v-btn @click="clear">limpiar</v-btn>
+              <v-btn v-if="!edit" @click="clear">limpiar</v-btn>
               <slot></slot>
             </v-form>
           </v-flex>
@@ -56,7 +56,8 @@ export default {
       type: Object,
       default: function() {
         return {
-          image: null
+          image: null,
+          featured: false
         };
       }
     }
@@ -74,14 +75,7 @@ export default {
     alert: false,
     contain: true,
     items: [],
-    checkbox: false
-    // form: {
-    //   title: null,
-    //   description: null,
-    //   image: null,
-    //   category: null,
-    //   date: null
-    // }
+    // checkbox: false
   }),
   methods: {
     submit() {
@@ -131,7 +125,7 @@ export default {
       this.item.description = null;
       this.item.category = null;
       this.item.image = null;
-      this.item.checkbox = false;
+      this.item.featured = false;
     }
   },
   created() {

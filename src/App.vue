@@ -50,7 +50,7 @@
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <span class="hidden-sm-and-down">{{app}}</span>
       </v-toolbar-title>
-      <v-text-field flat solo-inverted prepend-icon="search" label="Search" class="hidden-sm-and-down"></v-text-field>
+      <!-- <v-text-field flat solo-inverted prepend-icon="search" label="Search" class="hidden-sm-and-down"></v-text-field> -->
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>apps</v-icon>
@@ -120,8 +120,47 @@ export default {
           { icon: "list", text: "Listar categorias", path: "category-list" }
         ]
       },
-      { icon: "settings", text: "Settings" }
-      // { icon: "chat_bubble", text: "Send feedback" },
+      {
+        icon: "keyboard_arrow_up",
+        "icon-alt": "keyboard_arrow_down",
+        text: "Notas",
+        model: false,
+        children: [
+          { icon: "add", text: "Nueva Nota", path: "note-form" },
+          { icon: "list", text: "Listar Notas", path: "note-list" }
+        ]
+      },
+      {
+        icon: "keyboard_arrow_up",
+        "icon-alt": "keyboard_arrow_down",
+        text: "Eventos",
+        model: false,
+        children: [
+          { icon: "add", text: "Nuevo Evento", path: "event-form" },
+          { icon: "list", text: "Listar Eventos", path: "event-list" }
+        ]
+      },
+      {
+        icon: "keyboard_arrow_up",
+        "icon-alt": "keyboard_arrow_down",
+        text: "Documentos",
+        model: false,
+        children: [
+          { icon: "add", text: "Nuevo Documento", path: "document-form" },
+          { icon: "list", text: "Listar Documentos", path: "document-list" }
+        ]
+      },
+      {
+        icon: "keyboard_arrow_up",
+        "icon-alt": "keyboard_arrow_down",
+        text: "Lugares",
+        model: false,
+        children: [
+          { icon: "add", text: "Nuevo Lugar", path: "place-form" },
+          { icon: "list", text: "Listar Lugares", path: "place-list" }
+        ]
+      },
+      { icon: "settings", text: "Ajustes", path: "settings" }
       // { icon: "help", text: "Help" },
       // { icon: "phonelink", text: "App downloads" },
       // { icon: "keyboard", text: "Go to the old version" }

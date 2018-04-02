@@ -26,6 +26,12 @@ export const db = app.database()
 // 	});
 // }
 
+export const galleryRef = db.ref('gallery');
+export const orgRef = db.ref('org');
 export const newsRef = db.ref('news');
 export const categoryRef = db.ref('category');
+export const noteRef = db.ref('note');
+export const eventRef = db.ref('event');
+export const placeRef = db.ref('place');
+export const docsRef = db.ref('documents');
 // export const firebaseAuth = firebase.auth;
