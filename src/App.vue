@@ -45,7 +45,7 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="blue darken-3" dark app :clipped-left="$vuetify.breakpoint.mdAndUp" fixed>
+    <v-toolbar color="blue darken-3" dense dark app :clipped-left="$vuetify.breakpoint.mdAndUp" fixed>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <span class="hidden-sm-and-down">{{app}}</span>
@@ -65,6 +65,15 @@
       </v-btn>
     </v-toolbar>
     <v-content>
+      <v-flex xs12>
+        <div class="elevation-5">
+          <v-breadcrumbs divider="/" >
+            <v-breadcrumbs-item v-for="item in levelList" :key="item.text" :disabled="item.disabled">
+              {{ item.meta.title }}
+            </v-breadcrumbs-item>
+          </v-breadcrumbs>
+        </div>
+      </v-flex>
       <v-container fluid fill-height>
         <v-layout row wrap>
           <v-flex xs12>
@@ -164,11 +173,28 @@ export default {
       // { icon: "help", text: "Help" },
       // { icon: "phonelink", text: "App downloads" },
       // { icon: "keyboard", text: "Go to the old version" }
-    ]
+    ],
+    levelList: null
   }),
+  created() {
+    this.getBreadcrumb()
+  },
+  watch: {
+    $route() {
+      this.getBreadcrumb()
+    }
+  },
   methods: {
     close() {
       this.dialog = false;
+    },
+    getBreadcrumb() {
+      let matched = this.$route.matched.filter(item => item.name)
+      const first = matched[0]
+      if (first && first.name !== 'dashboard') {
+        matched = [{ path: '/dashboard', meta: { title: 'Inicio' }}].concat(matched)
+      }
+      this.levelList = matched
     }
   }
 };
