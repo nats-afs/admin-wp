@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+import auth from './modules/auth'
 export default new Vuex.Store({
   state: {
     drawer: true
@@ -12,5 +13,8 @@ export default new Vuex.Store({
   },
   mutations: {
     toogleSidebar: (state) => state.drawer = !state.drawer
+  },
+  modules:{
+    auth
   }
 });

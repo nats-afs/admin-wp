@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "firebase": "^4.9.0",
+    "firebaseui": "^3.0.0",
     "moment": "^2.20.1",
     "vue": "^2.5.3",
     "vue-router": "^3.0.1",
@@ -28,6 +29,8 @@
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.4",
     "node-sass": "^4.5.3",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.13.1",
     "stylus": "^0.54.5",
