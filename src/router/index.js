@@ -3,24 +3,18 @@ import Router from "vue-router";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [{
-      path: '/',
-      component: () =>
-        import ('@/components/Auth')
+      path: '*',
+      redirect: '/'
     },
     {
-      path: '/auth',
+      path: '/login',
       component: () =>
-        import ('@/components/Auth')
+        import ('@/components/Login')
     },
     {
-      path: '/success',
-      component: () =>
-        import ('@/components/AuthSuccess')
-    },
-    {
-      path: "/dashboard",
+      path: "/",
       component: () =>
         import ('@/components/Dashboard'),
       children: [{
@@ -157,3 +151,7 @@ export default new Router({
     // }
   ]
 });
+
+router.beforeEach((to,front,next)=>{
+  
+})

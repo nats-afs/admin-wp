@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import auth from './modules/auth'
+import messages from './modules/messages'
 export default new Vuex.Store({
   state: {
     drawer: true
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     toogleSidebar: (state) => state.drawer = !state.drawer
   },
   modules:{
-    auth
+    auth,
+    messages
   }
 });

@@ -12,7 +12,6 @@ export const config = {
 let app = firebase.initializeApp(config);
 export const db = app.database()
 
-
 export const claimantRef = db.ref('claimants');
 export const galleryRef = db.ref('gallery');
 export const orgRef = db.ref('org');

@@ -30,15 +30,17 @@
       v-toolbar-title.ml-0.pl-3(style='width: 300px')
         v-toolbar-side-icon(@click.stop='drawer = !drawer')
         span.hidden-sm-and-down {{app}}
-      // <v-text-field flat solo-inverted prepend-icon="search" label="Search" class="hidden-sm-and-down"></v-text-field>
       v-spacer
       v-btn(icon)
         v-icon apps
       v-btn(icon)
         v-icon notifications
-      v-btn(icon, large)
-        v-avatar(size='32px', tile)
-          img(src='https://vuetifyjs.com/static/doc-images/logo.svg', alt='Vuetify')
+      v-menu(bottom, left)
+        v-btn(slot='activator', icon, dark)
+          v-icon more_vert
+        v-list
+          v-list-tile(v-if="isLoggedIn",@click="closeSession")
+            v-list-tile-title Logout
     v-content
       v-flex(xs12)
         .elevation-5
@@ -57,6 +59,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import claimantForm from "@/components/ClaimantForm";
 export default {
   components: {
@@ -80,7 +83,7 @@ export default {
           { icon: "add", text: "Nuevo Solicitante", path: "claimants-form" },
           { icon: "list", text: "Listar Solicitantes", path: "claimants-list" }
         ]
-      },
+      }
       // {
       //   icon: "keyboard_arrow_up",
       //   "icon-alt": "keyboard_arrow_down",
@@ -146,9 +149,21 @@ export default {
       this.getBreadcrumb();
     }
   },
+  computed: {
+    ...mapGetters(["isLoggedIn", "currentUser"])
+  },
   methods: {
+    ...mapActions(["logout"]),
     close() {
       this.dialog = false;
+    },
+    closeSession() {
+      this.logout().then(() => {
+        console.log("User offline");
+        setTimeout(() => {
+          this.$router.push("/login");
+        }, 2000);
+      });
     },
     getBreadcrumb() {
       let matched = this.$route.matched.filter(item => item.name);

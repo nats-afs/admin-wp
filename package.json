@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "firebase": "^4.9.0",
-    "firebaseui": "^3.0.0",
     "moment": "^2.20.1",
     "vue": "^2.5.3",
     "vue-router": "^3.0.1",
